@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="bootstrap.min.css" rel="stylesheet"/>
+    <script src="jquery-3.4.1.min.js"></script>
+    <style>
+        .matchH{
+            height:120px;
+            margin:5px;
+            font-size:xx-large;
+        }
+        .player {
+            height: 100px;
+            margin: 20px;
+        }
+        .tool {
+            height: 100px;
+            margin: 20px;
+        }
+        .clk1 {
+            border: 10px solid #337ab7;
+        }
+        .clk2 {
+            border: 10px solid #f0ad4e;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            var lastFarId = "";
+            var currentPlayer;
+            $(".matchH").click(function () {
+                if (lastFarId == "" || lastFarId == $(this).parent().attr("id")) {
+                    lastFarId = $(this).parent().attr("id");
+                    $(this).attr('disabled', true);
+                    if (currentPlayer == 1) {
+                        $(this).addClass("clk1");
+                    }
+                    else {
+                        $(this).addClass("clk2");
+                    }
+                }
+                if ($("button[class*='clk']").length == 14) {
+                    alert("玩家 " + currentPlayer + " 获胜");
+                    RePlay();
+                }
+            });
+            $("#btnReStart").click(function () {
+                RePlay();
+            })
+            $("#btnPlayer1").click(function () {
+                if (lastFarId == "") {
+                    alert("请选择至少一个");
+                    return;
+                }
+                currentPlayer = 2;
+                lastFarId = "";
+                $(this).text("玩家 1")
+                $(this).attr('disabled', true);
+                $("#btnPlayer2").attr('disabled', false);
+
+            })
+            $("#btnPlayer2").click(function () {
+                if (lastFarId == "") {
+                    alert("请选择至少一个");
+                    return;
+                }
+                currentPlayer = 1;
+                lastFarId = "";
+                $(this).text("玩家 2");
+                $(this).attr('disabled', true);
+                $("#btnPlayer1").attr('disabled', false);
+            })
+
+            function RePlay() {
+                lastFarId = "";
+                $(".matchH").removeClass("clk1");
+                $(".matchH").removeClass("clk2");
+                $(".matchH").attr('disabled', false);
+                $(".player").attr('disabled', true);
+                RanNum();
+                $("#btnPlayer" + currentPlayer).attr('disabled', false);
+            }
+
+            function RanNum() {
+                //x上限，y下限     
+                var x = 100;
+                var y = 1;
+                var rand = parseInt(Math.random() * (x - y + 1) + y);
+                currentPlayer = (rand % 2) + 1;
+            }
+            RePlay();
+        });
+    </script>
+</head>
+<body style="background-color:black;">
+    <div class="container" style="height: 0px; padding-bottom: 100%">
+        <div class="row">
+            <div class="col-md-12" id="m3">
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" id="m5">
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" id="m7">
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+                <button type="button" class="btn btn-info col-md-1 matchH">i</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary col-md-3 player" id="btnPlayer1" disabled="true">玩家 1</button>
+                <button type="button" class="btn btn-danger col-md-3 tool" id="btnReStart">重新开始</button>
+                <button type="button" class="btn btn-warning col-md-3 player" id="btnPlayer2" disabled="true">玩家 2</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12" style="color:lavender;">
+                <h3>Tips</h3>
+                <p>两个玩家，每人可以在一轮内，在任意行拿任意根牙签，但不能跨行 </p>
+                <p>拿最后一根牙签的人即为输家 </p>
+                <p>当前玩家选择完，请按当前玩家按钮 </p>
+            </div>
+            </div>
+        </div>
+
+</body>
+</html>
